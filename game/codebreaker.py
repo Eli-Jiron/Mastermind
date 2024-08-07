@@ -1,3 +1,6 @@
+from random import choice
+
+
 class Codebreaker:
     def __init__(self, colors: list[str]) -> None:
         self.__colors = colors
@@ -19,4 +22,10 @@ class Codebreaker:
                 self.__response = []
 
     def guess_cpu(self):
-        pass
+        while True:
+            cpu_choice = choice(self.__colors)
+            if cpu_choice not in self.__response:
+                self.__response.append(cpu_choice)
+            if len(self.__response) == 4:
+                yield self.__response
+                self.__response = []
