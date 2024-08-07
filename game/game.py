@@ -1,13 +1,19 @@
 from time import sleep
 
+from board import Board
 from codebreaker import Codebreaker
 from codemaker import Codemaker
 
 
-class Game(Codebreaker, Codemaker):
-    def __init__(self, colors: list[str]) -> None:
+class Game(Codebreaker, Codemaker, Board):
+    def __init__(self, colors: list[str], turns: str) -> None:
         Codemaker.__init__(self, colors=colors)
         Codebreaker.__init__(self, colors=colors)
+        Board.__init__(self, turns=turns)
+        self.create_board()
+        self.__turns = turns
+        self.__board_colors = []
+        self.__guesser_pattern = ""
 
     def play(self):
         while True:
@@ -22,45 +28,46 @@ class Game(Codebreaker, Codemaker):
             self.plays_cpu()
 
     def plays_player(self):
-        turns = 12
-        pattern = self.cpu_pattern()
+        self.__guesser_pattern = self.cpu_pattern()
+        self.print_board()
         for play in self.guess_player():
-            if play == pattern:
+            self.show_result(play=play)
+            self.__turns -= 1
+            if self.__turns == 0 or play == self.__guesser_pattern:
                 break
-            turns -= 1
-            print(f"\nTurnos restantes: {turns}\n")
-            if self.no_turns_left(turns=turns):
-                break
-        if turns != 0:
+            print(f"\nTurnos restantes: {self.__turns}\n")
+
+        if self.__turns != 0:
             print("Felidades. Haz adivinado el codigo secreto.")
         else:
             print("Se han agotado los turnos. Fin del juego")
 
     def plays_cpu(self):
-        turns = 12
-        pattern = self.player_pattern()
+        self.__guesser_pattern = self.player_pattern()
+        self.print_board()
         for play in self.guess_cpu():
-            if play == pattern:
+            self.show_result(play=play)
+            self.__turns -= 1
+            if self.__turns == 0 or play == self.__guesser_pattern:
                 break
-            turns -= 1
-            print(f"\nTurnos restantes: {turns}\n")
-            if self.no_turns_left(turns=turns):
-                break
-            sleep(3)
-        if turns != 0:
+            print(f"\nTurnos restantes: {self.__turns}\n")
+            sleep(1.5)
+
+        if self.__turns != 0:
             print("La computadora descifró el codigo")
         else:
             print(
                 "Se han agotado los turnos. La computadora no logró descifrar el codigo"
             )
 
-    def no_turns_left(self, turns: int) -> bool:
-        if turns == 0:
-            return True
-        else:
-            return False
+    def show_result(self, play: list[str]):
+        self.__board_colors.append(play)
+        self.change_color(colors=self.__board_colors)
+        self.print_board()
 
 
 if __name__ == "__main__":
-    new_game = Game(["red", "blue", "green", "black", "pink", "white"])
+    new_game = Game(
+        colors=["red", "violet", "green", "black", "yellow", "cyan"], turns=12
+    )
     new_game.play()
