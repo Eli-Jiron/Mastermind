@@ -1,3 +1,5 @@
+from time import sleep
+
 from codebreaker import Codebreaker
 from codemaker import Codemaker
 
@@ -35,7 +37,22 @@ class Game(Codebreaker, Codemaker):
             print("Se han agotado los turnos. Fin del juego")
 
     def plays_cpu(self):
-        pass
+        turns = 12
+        pattern = self.player_pattern()
+        for play in self.guess_cpu():
+            if play == pattern:
+                break
+            turns -= 1
+            print(f"\nTurnos restantes: {turns}\n")
+            if self.no_turns_left(turns=turns):
+                break
+            sleep(3)
+        if turns != 0:
+            print("La computadora descifró el codigo")
+        else:
+            print(
+                "Se han agotado los turnos. La computadora no logró descifrar el codigo"
+            )
 
     def no_turns_left(self, turns: int) -> bool:
         if turns == 0:
