@@ -6,14 +6,15 @@ from codemaker import Codemaker
 
 
 class Game(Codebreaker, Codemaker, Board):
-    def __init__(self, colors: list[str], turns: str) -> None:
+    def __init__(self, colors: list[str], turns: int) -> None:
         Codemaker.__init__(self, colors=colors)
         Codebreaker.__init__(self, colors=colors)
         Board.__init__(self, turns=turns)
         self.create_board()
+        self.create_feedback_table()
         self.__turns = turns
         self.__board_colors = []
-        self.__guesser_pattern = ""
+        self.__codemaker_pattern = ""
 
     def play(self):
         while True:
@@ -28,12 +29,12 @@ class Game(Codebreaker, Codemaker, Board):
             self.plays_cpu()
 
     def plays_player(self):
-        self.__guesser_pattern = self.cpu_pattern()
+        self.__codemaker_pattern = self.cpu_pattern()
         self.print_board()
         for play in self.guess_player():
             self.show_result(play=play)
             self.__turns -= 1
-            if self.__turns == 0 or play == self.__guesser_pattern:
+            if self.__turns == 0 or play == self.__codemaker_pattern:
                 break
             print(f"\nTurnos restantes: {self.__turns}\n")
 
@@ -43,12 +44,12 @@ class Game(Codebreaker, Codemaker, Board):
             print("Se han agotado los turnos. Fin del juego")
 
     def plays_cpu(self):
-        self.__guesser_pattern = self.player_pattern()
+        self.__codemaker_pattern = self.player_pattern()
         self.print_board()
         for play in self.guess_cpu():
             self.show_result(play=play)
             self.__turns -= 1
-            if self.__turns == 0 or play == self.__guesser_pattern:
+            if self.__turns == 0 or play == self.__codemaker_pattern:
                 break
             print(f"\nTurnos restantes: {self.__turns}\n")
             sleep(1.5)
@@ -63,6 +64,7 @@ class Game(Codebreaker, Codemaker, Board):
     def show_result(self, play: list[str]):
         self.__board_colors.append(play)
         self.change_color(colors=self.__board_colors)
+        self.feedback(colors=self.__board_colors, pattern=self.__codemaker_pattern)
         self.print_board()
 
 
