@@ -49,7 +49,7 @@ class Game(Codebreaker, Codemaker, Board):
                 break
             print(f"\nTurnos restantes: {fore(220)}{self.__turns}{Style.reset}\n") # Informa de los turnos restantes.
 
-        if self.__turns != 0: # Si quedan turnos al detenerse el juego quiere decir ha ganado, en cambio, si no quedan turnos quiere decir que ha perdido.
+        if play == self.__codemaker_pattern: # Al detenerse el juego, compara si la ultima secuencia coincide con el código.
             print("Felidades. Haz adivinado el codigo secreto.")
         else:
             print("Se han agotado los turnos. Fin del juego")
@@ -68,7 +68,7 @@ class Game(Codebreaker, Codemaker, Board):
             print(f"\nTurnos restantes: {fore(220)}{self.__turns}{Style.reset}\n") # Informa de los turnos restantes.
             sleep(1.5) # Volverá a ejecutarse despues de 1.5 segundos.
 
-        if self.__turns != 0: # Si quedan turnos al detenerse el juego quiere decir ha ganado, en cambio, si no quedan turnos quiere decir que ha perdido.
+        if play == self.__codemaker_pattern: # Al detenerse el juego, compara si la ultima secuencia coincide con el código.
             print("La computadora descifró el codigo")
         else:
             print(
@@ -87,6 +87,5 @@ class Game(Codebreaker, Codemaker, Board):
 
 if __name__ == "__main__":
     new_game = Game(
-        colors=["red", "violet", "green", "black", "yellow", "cyan"], turns=12
-    )
+        colors=["red", "blue", "violet", "yellow", "tan", "green", "black", "blue_violet", "white", "navy_blue"], turns=4)
     new_game.play()
