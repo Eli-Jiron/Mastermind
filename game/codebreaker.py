@@ -1,5 +1,7 @@
 from random import choice
 
+from colored import Style, fore
+
 
 class Codebreaker:
     """
@@ -22,9 +24,9 @@ class Codebreaker:
                 if option not in self.__response: # Impide el ingreso de colores repetidos en la secuencia.
                     self.__response.append(option)
                 else:
-                    print("Error: la secuencia no puede tener colores repetidos")
+                    print(f"{fore(196)}Error:{Style.reset} la secuencia no puede tener colores repetidos")
             else:
-                print(f"Error: {option} no es un color de la lista")
+                print(f"{fore(196)}Error:{Style.reset} {option} no es un color de la lista")
             if len(self.__response) == 4: # Retorna la secuencia cuando esta tenga 4 colores.
                 yield self.__response
                 self.__response = []

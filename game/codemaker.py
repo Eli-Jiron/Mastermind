@@ -1,5 +1,7 @@
 from random import choice
 
+from colored import Style, fore
+
 
 class Codemaker:
     """
@@ -22,13 +24,13 @@ class Codemaker:
                 if option not in self.__pattern: # Impide el ingreso de colores repetido en la secuencia.
                     self.__pattern.append(option)
                 else:
-                    print("Error: la secuencia no puede tener colores repetidos")
+                    print(f"{fore(196)}Error:{Style.reset} la secuencia no puede tener colores repetidos")
             else:
-                print(f"Error: {option} no es un color de la lista")
+                print(f"{fore(196)}Error:{Style.reset} {option} no es un color de la lista")
             # Una vez el código tenga 4 colores le pedirá confirmación al usuario.
             if len(self.__pattern) == 4:
                 option = input(
-                    f"¿Confirma su secuencia: {", ".join(self.__pattern)}? (Y/N): "
+                    f"¿Confirma su secuencia: {", ".join(self.__pattern)}? ({fore(68)}Y{Style.reset}/{fore(160)}N{Style.reset}): "
                 ).lower()
                 if option == "y":
                     return self.__pattern

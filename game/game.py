@@ -3,6 +3,7 @@ from time import sleep
 from board import Board
 from codebreaker import Codebreaker
 from codemaker import Codemaker
+from colored import Style, fore
 
 
 class Game(Codebreaker, Codemaker, Board):
@@ -24,11 +25,11 @@ class Game(Codebreaker, Codemaker, Board):
         Proposito: Permite al usuario elegir si quiere ser adivinador o creador.
         """
         while True:
-            print("Modos:\n  Adivinador: 1, Creador: 0") # Muestra los modos disponibles.
+            print(f"{fore(85)}Modos:{Style.reset}\n  Adivinador: {fore(68)}1{Style.reset}, Creador: {fore(160)}0{Style.reset}") # Muestra los modos disponibles.
             option = input("Elija un modo: ")
             if option in ["1", "0"]: 
                 break
-            print(f"Error: {option} no es una opción valida")
+            print(f"{fore(196)}Error:{Style.reset} {option} no es una opción valida")
         if int(option): # Dependiendo del modo que haya elegido el usuario ejecuta una función u otra.
             self.plays_player()
         else:
@@ -46,7 +47,7 @@ class Game(Codebreaker, Codemaker, Board):
             self.__turns -= 1 # Resta un turno.
             if self.__turns == 0 or play == self.__codemaker_pattern: # Detendrá el juego cuando se acaben los turnos o se descifre el codigo.
                 break
-            print(f"\nTurnos restantes: {self.__turns}\n") # Informa de los turnos restantes.
+            print(f"\nTurnos restantes: {fore(220)}{self.__turns}{Style.reset}\n") # Informa de los turnos restantes.
 
         if self.__turns != 0: # Si quedan turnos al detenerse el juego quiere decir ha ganado, en cambio, si no quedan turnos quiere decir que ha perdido.
             print("Felidades. Haz adivinado el codigo secreto.")
@@ -64,7 +65,7 @@ class Game(Codebreaker, Codemaker, Board):
             self.__turns -= 1 # Resta un turno.
             if self.__turns == 0 or play == self.__codemaker_pattern: # Detendrá el juego cuando se acaben los turnos o se descifre el codigo.
                 break
-            print(f"\nTurnos restantes: {self.__turns}\n") # Informa de los turnos restantes.
+            print(f"\nTurnos restantes: {fore(220)}{self.__turns}{Style.reset}\n") # Informa de los turnos restantes.
             sleep(1.5) # Volverá a ejecutarse despues de 1.5 segundos.
 
         if self.__turns != 0: # Si quedan turnos al detenerse el juego quiere decir ha ganado, en cambio, si no quedan turnos quiere decir que ha perdido.
